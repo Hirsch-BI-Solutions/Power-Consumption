@@ -45,6 +45,33 @@ e_df['Day']=e_df['DATE'].dt.day
 Day_index=indexeddf.resample('D').mean()
 print(Day_index)
 
+#
+Day_index.plot()
+
 #weekly index aggregation
 Week_index_w=indexeddf.resample('W').agg({'COST_dollar':'max','USAGE':'max'})
-Day_index.plot()
+Week_index_w.plot()
+
+#weekly index aggregation
+Week_index=indexeddf.resample('W').agg({'COST_dollar':'min','USAGE':'min'})
+print(Week_index.stack())
+
+#
+Week_index.plot()
+
+
+#subplot intelligence
+
+f,axes = plt.subplots(1,2, figsize=(10, 10))
+C=sns.scatterplot(Week_index_w.COST_dollar    , Week_index_w.USAGE, s=100, edgecolor='black', alpha=0.5,\
+     palette='Blues',ax=axes[0]).set_title("Weekly max of household electric consumpton")
+
+D=sns.scatterplot(Day_index.COST_dollar , Day_index.USAGE, s=100, edgecolor='black', alpha=0.5,\
+     palette='Blues',ax=axes[1]).set_title("Daily mean of household electric consumpton")
+
+plt.show()
+
+
+
+
+
